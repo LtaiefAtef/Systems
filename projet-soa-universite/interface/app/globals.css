@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  width: 100%;
+}
+/* Dashboard Layout */
+.dashboard-layout{
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg ,rgb(45, 45, 102),rgb(48, 43, 102));
+  display: flex;
+}
+/* Side Bar */
+.side-bar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: linear-gradient(rgb(33, 33, 58),rgb(31, 31, 92));
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width:17vw;
+}
+.side-bar .logo{
+  width: 6.5vw;
+  height: 6.5vw;
+  background: url("/assets/orbit.png");
+  background-size: 13vw;
+  background-position: center;
+}
+.side-bar .links{
+  font-family: monospace;
+  font-size: 1.2vw;
+  width: 100%;
+}
+.side-bar .links li{
+  padding: 10px;
+  transition: all 300ms;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  &:hover{
+      color: rgb(57, 57, 138);
+    }
+}
+.side-bar .links .active{
+  color: rgb(57, 57, 138);
+}
+.side-bar .exit{
+  font-family: monospace;
+  font-size: 1.1vw;
+    &:hover{
+      color: rgb(57, 57, 138);
+    }
+}
+/* Overview */
+.overview{
+  width: calc(100% - 17vw);
+}
+.overview header{
+  padding: 7px;
+  padding-inline: 20px;
+  margin: 5px;
+  width: fit-content;
+  border-radius: 10px;
+  background: #00B7B5;
+  font-weight: bold;
+  box-shadow: 0px 0px 5px 0px #00B7B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.overview .logo{
+  background: url("/assets/domaine.png");
+  width: 30px;
+  height: 30px;
+  background-size: 30px;
+  background-position: center;
+}
+.overview .cards{
+  margin: 5px;
+  display:flex;
+  margin-top: 20px;
+  gap: 20px;
+}
+.overview .cards .card{
+  position: relative;
+  width: 400px;
+  height: 200px;
+  border-radius: 20px;
+  background: linear-gradient(160deg ,rgb(52, 51, 151) , rgb(69, 31, 129));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .overview .cards .card *{
+  border: 1px solid white;
+} */
+.overview .cards .card .text {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+}
+.overview .cards .card .text h1{
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.541);
+  font-family: sans-serif;
+}
+.overview .cards .card .text h4{
+  font-size: 50px;
+}
+.overview .cards .card img{
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+/* Authentication Service */
+.auth-request{
+  margin: 15px;
+  padding: 10px;
+}
+.auth-request legend{
+  font-size: 20px;
+}
+.auth-request .request-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-request .request-container .send-request{
+  background: rgb(111, 53, 204);
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: all 300ms;
+  &:hover{
+    background-color: rgb(78, 37, 145);
+  }
+  &:active{
+    background-color:rgb(115, 67, 194) ;
+  }
+}
+.auth-request .json-body-container{
+  margin-top: 20px;
+}
+.auth-request .json-body-container textarea{
+  border: 1px solid white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 100%;
+  height: 200px;
+  background-color: rgb(57, 57, 138);
+  margin-top: 10px;
+  border: transparent;
+  outline: none;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+.auth-request .json-body-container h1,.auth-request .json-response-container h1{
+  font-size: 20px;
+}
+.auth-request .json-response-container textarea{
+  border: 1px solid white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 100%;
+  height: 200px;
+  background-color: rgb(57, 57, 138);
+  margin-top: 10px;
+  border: transparent;
+  outline: none;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+.auth-request .json-response-container{
+  margin-top: 20px !important;
+}
+.auth-request .json-response-container .json-response{
+  font-family: monospace !important;
+}
+.auth-request .json-response-container .OK,.auth-request .json-response-container .Forbidden,.auth-request .json-response-container .not-found{
+  background-color: rgba(19, 121, 19, 0.484);
+  color: rgb(51, 178, 51);
+  padding: 5px;
+  padding-inline:7px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+.auth-request .json-response-container .Forbidden{
+  background-color: rgba(121, 19, 19, 0.333);
+  color: rgb(239, 75, 75);
+}
+.auth-request .json-response-container .not-found{
+  background-color: rgba(121, 116, 19, 0.333);
+  color: rgb(228, 239, 75);
+}

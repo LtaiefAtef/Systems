@@ -1,0 +1,64 @@
+services:
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    networks: [soa-net]
+
+  student-service:
+    build: ./services/student-service
+    container_name: student-service
+    ports:
+      - "8082:8082"
+    networks: [soa-net]
+
+  course-service:
+    build: ./services/course-service
+    container_name: course-service
+    ports:
+      - "8083:8083"
+    networks: [soa-net]
+
+  grade-service:
+    build: ./services/grade-service
+    container_name: grade-service
+    ports:
+      - "8084:8084"
+    networks: [soa-net]
+
+  billing-service:
+    build: ./services/billing-service
+    container_name: billing-service
+    ports:
+      - "8085:8085"
+    networks: [soa-net]
+
+  api-gateway:
+    build: ./services/api-gateway
+    container_name: api-gateway
+    depends_on:
+      - auth-service
+      - student-service
+      - course-service
+      - grade-service
+      - billing-service
+    ports:
+      - "8080:8080"
+    networks: [soa-net]
+
+  interface:
+    build:
+      context: ./interface
+    container_name: interface
+    ports:
+      - "3000:3000"
+    environment:
+      - GATEWAY_URL=http://api-gateway:8080
+    depends_on:
+      - api-gateway
+    networks: [soa-net]
+
+networks:
+  soa-net:
+    driver: bridge

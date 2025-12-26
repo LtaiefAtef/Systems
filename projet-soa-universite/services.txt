@@ -1,0 +1,87 @@
+auth-service    |running on port 8081
+student-service |running on port 8082
+course-service  |running on port 8083
+grade-service   |running on port 8084
+billing-service |running on port 8085
+
+api-gateway port = 8080 routes to all services
+
+CMD's:
+auth-service: mvn spring-boot:run
+student-service: node index.js
+course-service: mvn exec:java
+grade-service: 
+first we activate venv => & C:/Important/Fac/projet-soa-universite/services/grade-service/.venv/Scripts/Activate.ps1
+uvicorn main:app --reload --host 0.0.0.0 --port 8084
+billing-service:dotnet run --urls "http://0.0.0.0:8085"
+api-gateway : mvn spring-boot:run
+
+billing-service : 
+{
+  "operation": "GetInvoiceById",
+  "args": {
+    "invoiceId": 1
+  }
+}
+{
+  "operation": "GetAllInvoices",
+  "args": {}
+}
+{
+  "operation": "GetInvoicesByStudent",
+  "args": {
+    "cin": "14587963"
+  }
+}
+{
+  "operation": "CreateInvoice",
+  "args": {
+    "cin": "14587963",
+    "amount": 450.0,
+    "description": "Tuition fees"
+  }
+}
+{
+  "operation": "PayInvoice",
+  "args": {
+    "invoiceId": 1
+  }
+}
+course-service:
+{
+  "operation": "addCourse",
+  "args": {
+    "course": {
+      "code": "GL101",
+      "title": "Algorithms",
+      "credits": 3,
+      "teacher": "Dr. Smith",
+      "schedule": "Mon 10:00-12:00"
+    }
+  }
+}
+
+{
+    "operation": "getAllCourses",
+    "args": {}
+}
+{
+"operation": "getCourseByCode",
+  "args": { "code": "GL101" }
+}
+{
+  "operation": "deleteCourse",
+  "args": { "code": "GL101" }
+}
+{
+  "operation": "updateCourse",
+    "args": {
+      "course": {
+        "code": "GL101",
+        "title": "Algorithms",
+        "credits": 7,
+        "teacher": "Dr. Smith",
+        "schedule": "Mon 10:00-12:00"
+      }
+    }
+}

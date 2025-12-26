@@ -1,0 +1,4 @@
+com\univ\course\service\CourseServiceImp.class
+com\univ\course\CourseServicePublisher.class
+com\univ\course\service\CourseService.class
+com\univ\course\model\Course.class
