@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.univ.auth.model.LoginRequest;
+import com.univ.auth.model.SignupRequest;
 import com.univ.auth.service.AuthService;
 
 @RestController
@@ -35,6 +36,30 @@ public class AuthController {
             );
         }
 
-        return authService.generateFakeJwt(request.getUsername());
+        return authService.generateJwt(request.getUsername(), request.getRoles());
+    }
+    @PostMapping("/signup")
+    public String signup(@RequestBody SignupRequest request) {
+
+        boolean ok = authService.registerUser(
+                request.getName(),
+                request.getPrename(),
+                request.getUsername(),
+                request.getSection(),
+                request.getPhone(),
+                request.getEmail(),
+                request.getPassword(),
+                request.getRole(),
+                request.getSector()
+        );
+
+        if (!ok) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Registration Failed"
+            );
+        }
+
+        return "User registered successfully";
     }
 }
