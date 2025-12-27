@@ -1,11 +1,13 @@
 package com.univ.auth.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
@@ -42,7 +44,7 @@ public class AuthService {
         // Token lifetime: 1 hour (adjust as needed)
         Date exp = new Date(now.getTime() + 3600_000);
 
-        String[] tokenRoles = (roles == null || roles.length == 0) ? new String[]{"STUDENT"} : roles;
+        String[] tokenRoles = (roles == null || roles.length == 0) ? new String[]{"Student"} : roles;
 
         return JWT.create()
                 .withSubject(username)
@@ -52,24 +54,34 @@ public class AuthService {
                 .sign(alg);
     }
 
-    public boolean registerUser(String name, String prename, String username, String section, String phone, String email, String password,String role, String sector) {
-        return userRepository.registerUser(name, prename, username, section, phone, email, password, role, sector);
+    public boolean registerUser(String name, String prename, String username,String phone, String email, String password,String role, String sector) {
+        return userRepository.registerUser(name, prename, username, phone, email, password, role, sector);
     }
 
     /**
      * Verify a JWT's signature and expiration.
-     *
      * Returns true if the token is correctly signed with the configured secret and
      * is not expired. Additional claim checks (issuer, audience, roles) can be added.
+     * Validate the token and ensure it contains the requested role (if non-null).
+     * Role check is case-insensitive.
      */
-    public boolean validateJwt(String token) {
+    public boolean validateJwt(String token, String requiredRole) {
         try {
             Algorithm alg = Algorithm.HMAC256(JWT_SECRET);
             JWTVerifier verifier = JWT.require(alg).build();
             DecodedJWT jwt = verifier.verify(token);
-            // Additional checks can be done here, e.g. roles or custom claims.
-            return true;
-        } catch (Exception e) {
+
+            if (requiredRole == null || requiredRole.isBlank()) {
+                return true; // signature/expiry already validated
+            }
+
+            List<String> roles = jwt.getClaim("roles").asList(String.class);
+            if (roles == null || roles.isEmpty()) return false;
+            for (String r : roles) {
+                if (r != null && r.equalsIgnoreCase(requiredRole)) return true;
+            }
+            return false; // requiredRole not present in token
+        } catch (JWTVerificationException | IllegalArgumentException e) {
             // Verification failed (invalid signature, expired token, etc.)
             return false;
         }

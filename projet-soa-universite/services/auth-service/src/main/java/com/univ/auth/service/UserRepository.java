@@ -7,5 +7,5 @@ package com.univ.auth.service;
 public interface UserRepository {
     boolean isValid(String username, String password);
 
-    boolean registerUser(String name, String prename, String username, String section, String phone, String email, String password, String role, String sector);
+    boolean registerUser(String name, String prename, String username, String phone, String email, String password, String role, String sector);
 } 

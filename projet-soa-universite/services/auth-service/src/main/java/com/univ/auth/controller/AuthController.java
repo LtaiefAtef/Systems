@@ -45,7 +45,6 @@ public class AuthController {
                 request.getName(),
                 request.getPrename(),
                 request.getUsername(),
-                request.getSection(),
                 request.getPhone(),
                 request.getEmail(),
                 request.getPassword(),

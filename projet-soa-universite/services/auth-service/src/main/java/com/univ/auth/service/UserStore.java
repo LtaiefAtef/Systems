@@ -52,7 +52,7 @@ public class UserStore implements UserRepository {
     public boolean isValid(String username, String password) {
         if (username == null || password == null) return false;
         if (this.mongoClient == null) {
-            logger.error("MongoClient not initialized when validating user {}", username);
+            System.out.println("MongoClient not initialized properly.");
             return false;
         }
         try {
@@ -65,13 +65,13 @@ public class UserStore implements UserRepository {
             String stored = doc.getString("password");
             return stored != null && passwordEncoder.matches(password, stored);
         } catch (Exception e) {
-            logger.error("Error validating user {}", username, e);
+            System.out.println("Error validating user " + username + ": " + e.getMessage());
             return false;
         }
     }
 
     @Override
-    public boolean registerUser(String name, String prename, String username, String section, String phone, String email, String password, String role, String sector) {
+    public boolean registerUser(String name, String prename, String username, String phone, String email, String password, String role, String sector) {
         if (username == null || password == null) return false;
         try {
             MongoDatabase db = mongoClient.getDatabase(mongoDb);
@@ -85,7 +85,6 @@ public class UserStore implements UserRepository {
                     .append("password", hashed)
                     .append("name", name)
                     .append("prename", prename)
-                    .append("section", section)
                     .append("phone", phone)
                     .append("email", email)
                     .append("role", role)

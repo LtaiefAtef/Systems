@@ -3,7 +3,6 @@ public class SignupRequest{
     private String name;
     private String prename;
     private String username;
-    private String section;
     private String phone;
     private String email;
     private String password;
@@ -11,12 +10,11 @@ public class SignupRequest{
     private String role;
     public SignupRequest(){}
     public SignupRequest(String name,String prename,
-    String username,String section,String phone,String email,String password,
+    String username,String phone,String email,String password,
     String role,String sector){
                 this.name=name;
                 this.prename=prename;
                 this.username=username;
-                this.section=section;
                 this.phone=phone;
                 this.email=email;
                 this.password=password;
@@ -46,15 +44,6 @@ public class SignupRequest{
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
-
     public String getPhone() {
         return phone;
     }

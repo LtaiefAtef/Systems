@@ -4,6 +4,9 @@ services:
     container_name: auth-service
     ports:
       - "8081:8081"
+    environment:
+      MONGODB_URI: mongodb://172.28.48.1:27017
+      MONGODB_DATABASE: mydb
     networks: [soa-net]
 
   student-service:
